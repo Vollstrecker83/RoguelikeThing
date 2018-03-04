@@ -1,0 +1,45 @@
+Game Description:
+	Genre: 
+		RPG
+		Rogue-Like
+		Dungeon-Crawler
+	Game Elements:
+		Defeat enemies
+		Gather loot
+		Learn new skills
+		Delve deeper in to the dungeon
+	Game Content:
+		Action
+		Humor
+	Theme:
+		Fantasy
+	Style:
+		Pixel
+		Cartoony
+	Game Sequence:
+		No Story
+		No player dialogue
+		Just dungeon delving deeper
+	Player:
+		Single player
+		Single character/non-group
+
+Game Reference:
+	Game Taxonomy:
+		Fictional Game
+	Player Immersion:
+		Tactical
+		Strategy
+		Progression/Growth
+	Reference:
+		Dungeons of Dredmor
+
+Game Technical:
+	Technical From:
+		2D Graphics
+	View:
+		Top-Down
+	Platform:
+		Unity/C#
+	Device:
+		PC
