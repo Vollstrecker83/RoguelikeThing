@@ -1,0 +1,79 @@
+Character Stats:
+	Simplistic, similar to D&D
+		STR (Strength)
+		DEX (Dexterity)
+		CON (Constitution)
+		MND (Mind)
+		SPD (Speed)
+	Magic Resistances
+		Derived from equipment/skills only, zero base resists
+
+	No skills at this point, use base stat values for any checks
+	Level/XP system eventually, stretch goal
+		Levels are not to be used as a gating mechanism, only a source of power
+	Class system stretch goal
+	Encumberment stretch goal
+		SPD and DEX penalties for carrying a lot, etc?
+	Base Crit chance 5%
+	
+Character Controls:
+	Movement is cursor controlled (highlight, select, confirm[?])
+	Movement while out of combat cancels when combat is triggered
+	Actions are chosen via a menu, similar to Final Fantasy or old Fallout
+
+Character Movement:
+	Grid-based (square grid)
+	Free-movement outside of combat or events
+	In Combat relies on a speed attribute, not directly affecting actions or weapon usage
+	Choose facing direction after movement completion, no movement point cost
+
+Character Equipment:
+	A few classes of Armor
+		No Armor
+			Robe/Tunic?
+		Light Armor
+			Leather?
+		Medium Armor
+			Chain/Scale?
+		Heavy Armor
+			Plate
+		Shield
+			Block Chance, fully mitigates physical damage, some spells, or parts of spells
+	
+	Armor mitigates a certain amount of incoming damage, percentage based
+	Also armor imposes a dodge penalty or maximum DEX benefit the heavier it is
+	Armor should take into account the size of the opponent
+		Larger monsters do more damage through armor, smaller ones do less, etc (a shield won't fully mitigate a dragon swipe)
+	Armor/Weapon degradation, stretch goal
+	Armor protection against damage types and different 
+	Inventory system
+		Diablo-esque slots with weight limit
+	Weapons differences are mostly in damage done
+		Stretch goal of adding damage types (slash, pierce, crush, etc)
+		Stretch goal of weapons with increased reach (polearms, spears, etc)
+		Melee weapons have STR bonus applied to damage, ranged use DEX, wands use MND
+			Stretch goal of having some classes or higher grade of weapon operate differently (high pull-weight bows add STR, etc)
+	Accessories (rings, amulet) stretch goal
+
+Player Death:
+	Session over, restart from very beginning
+	Single session game, no save points or anything of the like
+
+Character Combat:
+	Highlight target with equipped weapon, display chance to hit, confirm
+		Chance to hit user-selectable: Single percentage with average roll or full range with min/max rolls
+	Critical hits are a thing for the player, monsters will not crit by default
+	Spells, item/consumables do not crit
+	
+Character Looting:
+	Most equipment can be found laying around
+	Chests with required keys every so often, stretch goal
+		Probably have these contain higher-quality loot, keys locked behind strong monsters or secret areas?
+
+Monsters:
+	No crits unless specifically added
+	Uses same stats, armor, etc that players do
+		May have unique attacks (zombies claw, dragons breathe fire, etc)
+	Dormant or patrolling until player is spotted
+	Likely low numbers in engagements with the player
+	Flanking/Positional bonuses, stretch goal
