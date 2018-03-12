@@ -20,12 +20,14 @@ Character Controls:
 	Movement is cursor controlled (highlight, select, confirm[?])
 	Movement while out of combat cancels when combat is triggered
 	Actions are chosen via a menu, similar to Final Fantasy or old Fallout
+	Free camera movement
 
 Character Movement:
 	Grid-based (square grid)
 	Free-movement outside of combat or events
 	In Combat relies on a speed attribute, not directly affecting actions or weapon usage
 	Choose facing direction after movement completion, no movement point cost
+	Movement snaps to grid squares
 
 Character Equipment:
 	A few classes of Armor
@@ -77,3 +79,8 @@ Monsters:
 	Dormant or patrolling until player is spotted
 	Likely low numbers in engagements with the player
 	Flanking/Positional bonuses, stretch goal
+
+Level Concerns
+	Fog of War/Visibility restrictions to LOS only
+	Fixed levels to start
+	Stretch goal of procedurally generated levels
