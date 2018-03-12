@@ -7,6 +7,7 @@ Character Stats:
 		SPD (Speed)
 	Magic Resistances
 		Derived from equipment/skills only, zero base resists
+		Lightning, Fire, Frost, and Poison
 
 	No skills at this point, use base stat values for any checks
 	Level/XP system eventually, stretch goal
@@ -56,6 +57,7 @@ Character Equipment:
 		Melee weapons have STR bonus applied to damage, ranged use DEX, wands use MND
 			Stretch goal of having some classes or higher grade of weapon operate differently (high pull-weight bows add STR, etc)
 	Accessories (rings, amulet) stretch goal
+	Magic weapons may add bonus damage of an element type (Lightning, Frost, Fire, Poison, Physical)
 
 Player Death:
 	Session over, restart from very beginning
@@ -66,6 +68,7 @@ Character Combat:
 		Chance to hit user-selectable: Single percentage with average roll or full range with min/max rolls
 	Critical hits are a thing for the player, monsters will not crit by default
 	Spells, item/consumables do not crit
+	When combat joins, turn order proceeds from highest to lowest SPD value
 	
 Character Looting:
 	Most equipment can be found laying around
