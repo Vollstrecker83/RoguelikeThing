@@ -1,0 +1,14 @@
+Terrain Class
+	Holds the tileset for levels (current and ones being loaded)
+		Will likely need to be a two-dimensional array (or other List-type) to hold tiles
+		Origin will likely be the upper left, which is default for rendering applications
+	Procedural generation will likely occur here in the future as well
+	Grid functionality will likely need to occur here as well
+	
+	
+Tile Class
+	Each tile will need an object
+		Should hold type, specify texture to load, and any info on it
+		Should have an origin for sprites to snap to
+		Will need a refresh or redraw flag/function to indicate changing status
+		
