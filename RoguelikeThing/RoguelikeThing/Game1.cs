@@ -12,6 +12,8 @@ namespace RoguelikeThing
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        Player player;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -27,6 +29,7 @@ namespace RoguelikeThing
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            player = new Player();
 
             base.Initialize();
         }
@@ -41,6 +44,7 @@ namespace RoguelikeThing
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            player.ObjectTexture = Content.Load<Texture2D>("player");
         }
 
         /// <summary>
@@ -76,6 +80,9 @@ namespace RoguelikeThing
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+            spriteBatch.Begin();
+            spriteBatch.Draw(player.ObjectTexture, player.ObjectPosition, Color.White);
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }

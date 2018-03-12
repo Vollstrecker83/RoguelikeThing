@@ -12,11 +12,19 @@ namespace RoguelikeThing
     /// <summary>
     /// The player object and associated data/methods
     /// </summary>
-    sealed class Player:Entity
+    public class Player:Entity
     {
         #region Private Member Variables
         private int currentExperience;
         #endregion
 
+        #region Accessors/Mutators
+        public int CurrentExperience { get => currentExperience; set => currentExperience = value; }
+        #endregion
+
+        public Player()
+        {
+            this.ObjectPosition = new Vector2(0, 0);
+        }
     }
 }

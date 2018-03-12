@@ -57,6 +57,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Armor.cs" />
+    <Compile Include="Camera.cs" />
+    <Compile Include="TerrainObject.cs" />
+    <Compile Include="Terrain.cs" />
+    <Compile Include="Monster.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="Item.cs" />
     <Compile Include="Player.cs" />
@@ -74,11 +78,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\player.bmp" />
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />
     <None Include="app.manifest" />
+    <Content Include="Content\bin\Windows\player.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
