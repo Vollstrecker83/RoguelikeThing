@@ -1,0 +1,2 @@
+Need to set a grid-size (I'm using 48x48 for now)
+XNA uses Magenta (255, 0, 255) as its Alpha Channel (anything this color is rendered transparent)

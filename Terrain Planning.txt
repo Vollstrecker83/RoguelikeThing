@@ -1,8 +1,9 @@
 Terrain Class
 	Holds the tileset for levels (current and ones being loaded)
-		Will likely need to be a two-dimensional array (or other List-type) to hold tiles
+		Will likely need a list of Vector2's to hold tile locations
 		Origin will likely be the upper left, which is default for rendering applications
 	Procedural generation will likely occur here in the future as well
+		Will need some kind of pathfinding implemented to avoid making levels that cannot be completed
 	Grid functionality will likely need to occur here as well
 	
 	
@@ -11,4 +12,9 @@ Tile Class
 		Should hold type, specify texture to load, and any info on it
 		Should have an origin for sprites to snap to
 		Will need a refresh or redraw flag/function to indicate changing status
+			Should likely just be handled by changing textures and the normal game Update() function
+	Instead of making textures for base floor tiles like dirt, we might just have the game procedurally generate the tile art pixel-by-pixel
+		Various shades of brown, some grey for little rocks/pebbles/etc
+	Tile size needs to be determined
+		64x64 with entities/gameobjects being 48x48 so you can see the floor beneath it?
 		

@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="Armor.cs" />
     <Compile Include="Camera.cs" />
+    <Compile Include="Tile.cs" />
     <Compile Include="TerrainObject.cs" />
     <Compile Include="Terrain.cs" />
     <Compile Include="Monster.cs" />
@@ -78,15 +79,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\player.bmp" />
+    <Content Include="Content\shittyDirt.bmp" />
+    <Content Include="Content\shittyFloor.bmp" />
+    <Content Include="Content\shittyPlayer.bmp" />
+    <Content Include="Content\shittyWater.bmp">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />
     <None Include="app.manifest" />
-    <Content Include="Content\bin\Windows\player.xnb">
+    <Content Include="Content\bin\Windows\shittyDirt.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\bin\Windows\shittyFloor.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="Content\bin\Windows\shittyPlayer.xnb" />
+    <None Include="Content\bin\Windows\shittyWater.xnb" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">

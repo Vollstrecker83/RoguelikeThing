@@ -18,7 +18,7 @@ namespace RoguelikeThing
         public enum StatusEffect
         {
             LightlyEncumbered = 1, ModeratelyEncumbered, HeavilyEncumbered, Rooted, Stunned, Slowed,
-            Silenced, Blinded, Deafened, Poisoned, Bleeding
+            Silenced, Blinded, Deafened, Poisoned, Bleeding, Sleeping
         };
         public enum EquipmentSlot { Head = 1, Chest, Legs, Hands, Feet, Weapon, Shield };
         public enum EntityStat { STR = 1, DEX, CON, MND, SPD };
@@ -42,6 +42,7 @@ namespace RoguelikeThing
         private Weapon equippedWeapon;
         private Armor equippedHead, equippedChest, equippedLegs, equippedHands, equippedFeet, equippedShield;
         private int healthScaling, manaScaling;                     // Looks like we'll do a Die-roll for this eventually
+        private bool isDead;
         #endregion
 
         #region Accessors and Mutators
@@ -86,6 +87,7 @@ namespace RoguelikeThing
         public int CurrentToHit { get => currentToHit; set => currentToHit = value; }
         public int HealthScaling { get => healthScaling; set => healthScaling = value; }
         public int ManaScaling { get => manaScaling; set => manaScaling = value; }
+        public bool IsDead { get => isDead; set => isDead = value; }
         #endregion
     }
 }
