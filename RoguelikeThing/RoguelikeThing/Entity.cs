@@ -89,5 +89,29 @@ namespace RoguelikeThing
         public int ManaScaling { get => manaScaling; set => manaScaling = value; }
         public bool IsDead { get => isDead; set => isDead = value; }
         #endregion
+
+        /// <summary>
+        /// Verifies that the entity is attempting to move into a valid tile
+        /// </summary>
+        /// <param name="map"></param>
+        /// <param name="attemptedMovePosition"></param>
+        /// <returns></returns>
+        public bool CanMoveIntoTile(Terrain map, Point attemptedMovePosition)
+        {
+            // Makes sure we stay within the map boundaries
+            if ((attemptedMovePosition.X >= map.MapSize.X || attemptedMovePosition.X < 0) ||
+                (attemptedMovePosition.Y >= map.MapSize.Y || attemptedMovePosition.Y < 0))
+            {
+                return false;
+            }
+
+            // Checks if the tile has a collider
+            if (map.GetTileAtGridPosition(attemptedMovePosition).IsCollider)
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 }

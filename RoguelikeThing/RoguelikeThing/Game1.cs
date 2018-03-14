@@ -19,12 +19,11 @@ namespace RoguelikeThing
         double lastUpdate;
         int movementTimeLimit;
         bool moveAllowed;
-        private static Point tileSize, mapSize;
+        private static Point tileSize;
         #endregion
 
         #region Accessors/Mutators
         public Player Player { get => player; set => player = value; }
-        protected static Point MapSize { get => mapSize; set => mapSize = value; }
         protected static Point TileSize { get => tileSize; set => tileSize = value; }
         #endregion
 
@@ -43,10 +42,9 @@ namespace RoguelikeThing
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            mapSize = new Point(10, 10);
             tileSize = new Point(64, 64);
-            map = new Terrain(mapSize, tileSize);
-            player = new Player(tileSize);
+            map = new Terrain(0);
+            player = new Player(tileSize, map.MapSize);
             movementTimeLimit = 500;
             moveAllowed = true;
 
@@ -103,20 +101,24 @@ namespace RoguelikeThing
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            {
                 Exit();
+            }
 
             // TODO: Add your update logic here
 
             // We need to have a movement rate limiter in place for free movement or people will just fly across the map.
             if (gameTime.TotalGameTime.TotalMilliseconds - lastUpdate >= movementTimeLimit && !moveAllowed)
+            {
                 moveAllowed = true;
+            }
 
             // It seems like Update() runs once at least before Initialize(), so protect against null objects
-            if(player != null)
+            if (player != null)
             {
                 if (moveAllowed)
                 {
-                    bool moved = ProcessPlayerMovement(player.GridPosition, Keyboard.GetState());
+                    bool moved = player.ProcessPlayerMovement(player.GridPosition, Keyboard.GetState(), map);
 
                     if (moved)
                     {
@@ -144,7 +146,8 @@ namespace RoguelikeThing
             // Draw the terrain first, as it is the "bottom" layer
             foreach (Tile tempTile in map.TileSet)
             {
-                spriteBatch.Draw(tempTile.ObjectTexture, tempTile.DrawRectangle, Color.White);
+                Vector2 origin = new Vector2(0, 0);
+                spriteBatch.Draw(tempTile.ObjectTexture, tempTile.DrawRectangle, null, Color.White, 0, origin, tempTile.TileEffects, 0.0f);
             }
 
             spriteBatch.Draw(player.ObjectTexture, player.DrawRectangle, Color.White);
@@ -152,40 +155,6 @@ namespace RoguelikeThing
             spriteBatch.End();
 
             base.Draw(gameTime);
-        }
-
-        protected bool ProcessPlayerMovement(Point newGridPosition, KeyboardState state)
-        {
-            if(state.IsKeyDown(Keys.Up))
-            {
-                newGridPosition.Y -= 1;
-                player.DrawRectangle = player.UpdateDrawRectangle(newGridPosition);
-                return true;
-            }
-            else if (state.IsKeyDown(Keys.Down))
-            {
-                newGridPosition.Y += 1;
-                player.DrawRectangle = player.UpdateDrawRectangle(newGridPosition);
-                return true;
-            }
-            else if (state.IsKeyDown(Keys.Left))
-            {
-                newGridPosition.X -= 1;
-                player.DrawRectangle = player.UpdateDrawRectangle(newGridPosition);
-                return true;
-            }
-            else if (state.IsKeyDown(Keys.Right))
-            {
-                newGridPosition.X += 1;
-                player.DrawRectangle = player.UpdateDrawRectangle(newGridPosition);
-                return true;
-            }
-            else
-            {
-                // No movement input detected, return control back to Update()
-                return false;
-            }
-
         }
     }
 }
