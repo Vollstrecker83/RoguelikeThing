@@ -90,14 +90,18 @@ namespace RoguelikeThing
         public bool IsDead { get => isDead; set => isDead = value; }
         #endregion
 
+        public Entity(int level)
+        { }
+
         /// <summary>
         /// Verifies that the entity is attempting to move into a valid tile
         /// </summary>
         /// <param name="map"></param>
         /// <param name="attemptedMovePosition"></param>
         /// <returns></returns>
-        public bool CanMoveIntoTile(Terrain map, Point attemptedMovePosition)
+        public bool CanMoveIntoTile(int level, Point attemptedMovePosition)
         {
+            Terrain map = TerrainManager.GetTerrainManager.GetCurrentMap(level);
             // Makes sure we stay within the map boundaries
             if ((attemptedMovePosition.X >= map.MapSize.X || attemptedMovePosition.X < 0) ||
                 (attemptedMovePosition.Y >= map.MapSize.Y || attemptedMovePosition.Y < 0))

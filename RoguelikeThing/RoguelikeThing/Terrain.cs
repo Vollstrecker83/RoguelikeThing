@@ -17,15 +17,16 @@ namespace RoguelikeThing
         public enum GroundType { Dirt = 1, Floor, Water };
 
         #region Private Member Variables
-        private int levelNumber;
+
         private List<Tile> tileSet;
         private Point mapSize;
         #endregion
 
         #region Accessors and Mutators
-        public List<Tile> TileSet { get => tileSet; set => tileSet = value; }
-        public int LevelNumber { get => levelNumber; set => levelNumber = value; }
+        public List<Tile> TileSet => tileSet;
         public Point MapSize => mapSize;
+
+
         #endregion
 
         public Terrain()
@@ -36,14 +37,23 @@ namespace RoguelikeThing
             Random rand = new Random();
             mapSize.X = rand.Next(5, 11);
             mapSize.Y = rand.Next(5, 11);
-            this.levelNumber = newLevelNumber;
+            this.CurrentLevel = newLevelNumber;
             this.tileSet = CreateTileSet();
 
             if (tileSet.Equals(null))
             {
-                throw new Exception("Failed to create the level " + levelNumber + "tileset!");
+                throw new Exception("Failed to create the level " + this.CurrentLevel + "tileset!");
             }
-                
+
+            // Make sure we don't populate the first level into the manager twice
+            if(this.CurrentLevel > 1)
+            {
+                TerrainManager.GetTerrainManager.MapList.Add(this.CurrentLevel, this);
+            }
+
+            // Set the current level number as this will only be called when a player is entering a level (in theory)
+            TerrainManager.GetTerrainManager.CurrentLevel = this.CurrentLevel;
+
         }
 
         /// <summary>
@@ -53,7 +63,7 @@ namespace RoguelikeThing
         private List<Tile> CreateTileSet()
         {
             // Make sure the map and tile values are valid
-            if ((MapSize.X < 1 || MapSize.Y < 1) || (TileSize.X < 1 || TileSize.Y < 1))
+            if ((MapSize.X < 1 || MapSize.Y < 1) || (GetTileSize().X < 1 || GetTileSize().Y < 1))
             {
                 throw new Exception("MapSize or TileSize in Terrain::CreateTileSet is 0 or lower");
             }
@@ -84,7 +94,7 @@ namespace RoguelikeThing
                         index = random.Next(1, 3);
                     }
                     #endregion
-                    Tile tile = new Tile(this, location, 0,  tempType.ElementAt(index));
+                    Tile tile = new Tile(location, 0,  tempType.ElementAt(index));
                     int orientation = random.Next(0, 3);
                     switch (orientation)
                     {

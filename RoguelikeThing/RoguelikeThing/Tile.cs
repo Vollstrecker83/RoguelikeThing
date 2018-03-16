@@ -27,13 +27,13 @@ namespace RoguelikeThing
         #endregion
 
         // Constructor, it will be passed the grid location that the tile will be set to.
-        public Tile(Terrain map, Point passedGridLocation, int passedObject,  GroundType passedGroundType)
+        public Tile(Point passedGridLocation, int passedObject,  GroundType passedGroundType)
         {
             tObject = null;
             this.GridPosition = passedGridLocation;
             this.FloorType = passedGroundType;
-            this.DrawPosition = new Point(this.GridPosition.X * TileSize.X, this.GridPosition.Y * TileSize.Y);
-            this.DrawRectangle = new Rectangle(this.DrawPosition, TileSize);
+            this.DrawPosition = new Point(this.GridPosition.X * GetTileSize().X, this.GridPosition.Y * GetTileSize().Y);
+            this.DrawRectangle = new Rectangle(this.DrawPosition, GetTileSize());
             this.tileEffects = SpriteEffects.None;
             if (this.FloorType == GroundType.Water)
             {
