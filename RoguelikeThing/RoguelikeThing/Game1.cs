@@ -12,17 +12,22 @@ namespace RoguelikeThing
     public class Game1 : Game
     {
         #region Member Variables
+        Viewport viewport;
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Camera camera;
-        Player player;
-        private Terrain map;
+        static Player player;
+        Terrain map;
         TerrainManager terrainManager;
+        InputController inputController;
         #endregion
 
         #region Accessors/Mutators
-        public Player Player { get => player; set => player = value; }
+        static public Player Player => player;
         public Terrain Map => map;
+        public Viewport GetViewport => viewport;
+
+
         #endregion
 
         public Game1()
@@ -40,14 +45,15 @@ namespace RoguelikeThing
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            terrainManager = TerrainManager.GetTerrainManager;
-            terrainManager.TileSize = new Point(64, 64);
-            terrainManager.MapList.Add(1, new Terrain(1));
-            bool gotMap = TerrainManager.GetTerrainManager.MapList.TryGetValue(1, out map);
+            viewport = graphics.GraphicsDevice.Viewport;
+            camera = Camera.GetCamera;
+            TerrainManager.TileSize = new Point(64, 64);
+            TerrainManager.MapList.Add(1, new Terrain(1));
+            bool gotMap = TerrainManager.MapList.TryGetValue(1, out map);
             if (!gotMap)
                 throw new Exception("Failed to retrieve map in Game1::Initialize()");
             player = new Player();
-            
+
             base.Initialize();
         }
 
@@ -63,7 +69,7 @@ namespace RoguelikeThing
             // TODO: use this.Content to load your game content here
             player.ObjectTexture = Content.Load<Texture2D>("shittyPlayer");
 
-            bool gotMap = terrainManager.MapList.TryGetValue(1, out map);
+            bool gotMap = TerrainManager.MapList.TryGetValue(1, out map);
 
             if (!gotMap)
                 throw new Exception("Failed to retrieve map from Terrain Manager in LoadContent!");
@@ -111,7 +117,7 @@ namespace RoguelikeThing
             }
 
             // TODO: Add your update logic here
-            player.GiveTime(gameTime);
+            InputController.GetInputController.GiveTime(gameTime);
 
             base.Update(gameTime);
         }
@@ -141,7 +147,7 @@ namespace RoguelikeThing
             base.Draw(gameTime);
         }
 
-        protected virtual void GiveTime(GameTime gameTime)
+        public virtual void GiveTime(GameTime gameTime)
         { }
     }
 }

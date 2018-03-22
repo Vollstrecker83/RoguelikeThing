@@ -12,12 +12,13 @@ namespace RoguelikeThing
     /// <summary>
     /// This class will implement and control the in-game camera
     /// </summary>
-    class Camera:Game1
+    public sealed class Camera:Game1
     {
         #region Private Member Variables
+        static Camera camera = new Camera();
+        private Viewport viewport;
         private const float zoomUpperLimit = 1.5f;
         private const float zoomLowerLimit = 0.5f;
-
         private float zoom;
         private Matrix transform;
         private Vector2 position;
@@ -28,6 +29,8 @@ namespace RoguelikeThing
         #endregion
 
         #region Accessors/Mutators
+        public static Camera GetCamera => camera;
+
         public float Zoom
         {
             get => zoom;
@@ -64,9 +67,10 @@ namespace RoguelikeThing
         }
         #endregion
 
-        public Camera(Viewport viewport, float initialZoom)
+        private Camera()
         {
-            zoom = initialZoom;
+            viewport = GetViewport;
+            zoom = 1.0f;
             position = Vector2.Zero;
             viewportWidth = viewport.Width;
             viewportHeight = viewport.Height;

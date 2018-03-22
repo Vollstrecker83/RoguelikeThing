@@ -11,7 +11,7 @@ namespace RoguelikeThing
     /// </summary>
     public abstract class Monster:Entity
     {
-        public Monster():base(TerrainManager.GetTerrainManager.CurrentLevel)
+        public Monster():base(TerrainManager.CurrentLevel)
         { }
     }
 }

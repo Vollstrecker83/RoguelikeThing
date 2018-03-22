@@ -101,8 +101,9 @@ namespace RoguelikeThing
         /// <returns></returns>
         public bool CanMoveIntoTile(int level, Point attemptedMovePosition)
         {
-            Terrain map = TerrainManager.GetTerrainManager.GetCurrentMap(level);
-            // Makes sure we stay within the map boundaries
+            Terrain map = TerrainManager.GetCurrentMap(level);
+
+            // Make sure we stay within the map boundaries
             if ((attemptedMovePosition.X >= map.MapSize.X || attemptedMovePosition.X < 0) ||
                 (attemptedMovePosition.Y >= map.MapSize.Y || attemptedMovePosition.Y < 0))
             {

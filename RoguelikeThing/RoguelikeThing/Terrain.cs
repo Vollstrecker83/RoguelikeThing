@@ -48,11 +48,11 @@ namespace RoguelikeThing
             // Make sure we don't populate the first level into the manager twice
             if(this.CurrentLevel > 1)
             {
-                TerrainManager.GetTerrainManager.MapList.Add(this.CurrentLevel, this);
+                TerrainManager.MapList.Add(this.CurrentLevel, this);
             }
 
             // Set the current level number as this will only be called when a player is entering a level (in theory)
-            TerrainManager.GetTerrainManager.CurrentLevel = this.CurrentLevel;
+            TerrainManager.CurrentLevel = this.CurrentLevel;
 
         }
 

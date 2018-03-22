@@ -165,12 +165,12 @@ namespace RoguelikeThing
 
         public Point GetTileSize()
         {
-            return TerrainManager.GetTerrainManager.TileSize;
+            return TerrainManager.TileSize;
         }
 
         public Point GetMapSize(int level)
         {
-            return TerrainManager.GetTerrainManager.GetMapSize(level);
+            return TerrainManager.GetMapSize(level);
         }
     }
 }
