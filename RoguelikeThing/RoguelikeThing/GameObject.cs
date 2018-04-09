@@ -30,19 +30,19 @@ namespace RoguelikeThing
         #endregion
 
         #region Accessors/Mutators
-        public Texture2D ObjectTexture { get => objectTexture; set => objectTexture = value; }
-        public Point ObjectPosition { get => objectPosition; set => objectPosition = value; }
-        public Point ObjectSize { get => objectSize; set => objectSize = value; }
-        public bool IsDormant { get => isDormant; set => isDormant = value; }
-        public bool IsCollider { get => isCollider; set => isCollider = value; }
-        public bool IsVisible { get => isVisible; set => isVisible = value; }
-        public bool IsInLOS { get => isInLOS; set => isInLOS = value; }
-        public Point GridPosition { get => gridPosition; set => gridPosition = value; }
-        public Rectangle DrawRectangle { get => drawRectangle; set => drawRectangle = value; }
-        public Point DrawPosition { get => drawPosition; set => drawPosition = value; }
-        public Point DrawOffset { get => drawOffset; set => drawOffset = value; }
-        public double LastUpdate { get => lastUpdate; set => lastUpdate = value; }
-        public int CurrentLevel { get => currentLevel; set => currentLevel = value; }
+        public Texture2D ObjectTexture { get { return objectTexture; } set { objectTexture = value; } }
+        public Point ObjectPosition { get { return objectPosition; } set { objectPosition = value; } }
+        public Point ObjectSize { get { return objectSize; } set { objectSize = value; } }
+        public bool IsDormant { get { return isDormant; } set { isDormant = value; } }
+        public bool IsCollider { get { return isCollider; } set { isCollider = value; } }
+        public bool IsVisible { get { return isVisible; } set { isVisible = value; } }
+        public bool IsInLOS { get { return isInLOS; } set { isInLOS = value; } }
+        public Point GridPosition { get { return gridPosition; } set { gridPosition = value; } }
+        public Rectangle DrawRectangle { get { return drawRectangle; } set { drawRectangle = value; } }
+        public Point DrawPosition { get { return drawPosition; } set { drawPosition = value; } }
+        public Point DrawOffset { get { return drawOffset; } set { drawOffset = value; } }
+        public double LastUpdate { get { return lastUpdate; } set { lastUpdate = value; } }
+        public int CurrentLevel { get { return currentLevel; } set { currentLevel = value; } }
         #endregion
 
         /// <summary>

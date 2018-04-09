@@ -17,15 +17,13 @@ namespace RoguelikeThing
         SpriteBatch spriteBatch;
         Camera camera;
         static Player player;
-        Terrain map;
-        TerrainManager terrainManager;
-        InputController inputController;
+        static Terrain map;
         #endregion
 
         #region Accessors/Mutators
-        static public Player Player => player;
-        public Terrain Map => map;
-        public Viewport GetViewport => viewport;
+        static public Player Player { get { return player; } }
+        public static Terrain Map { get { return map; } }
+        public Viewport GetViewport { get { return viewport; } }
 
 
         #endregion
@@ -118,6 +116,7 @@ namespace RoguelikeThing
 
             // TODO: Add your update logic here
             InputController.GetInputController.GiveTime(gameTime);
+            Camera.GetCamera.GiveTime(gameTime);
 
             base.Update(gameTime);
         }
@@ -131,6 +130,7 @@ namespace RoguelikeThing
             GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
+            //spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, cameraTransform);
             spriteBatch.Begin();
 
             // Draw the terrain first, as it is the "bottom" layer

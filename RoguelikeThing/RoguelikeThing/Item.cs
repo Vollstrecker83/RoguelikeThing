@@ -17,10 +17,10 @@ namespace RoguelikeThing
         #endregion
 
         #region Accessors and Mutators
-        public int Weight => weight;
-        public int Durability => durability;
-        public bool CanBeDamaged => canBeDamaged;
-        public int DurabilityLossPerUse => durabilityLossPerUse;
+        public int Weight { get { return weight; } }
+        public int Durability { get { return durability; } }
+        public bool CanBeDamaged { get { return canBeDamaged; } }
+        public int DurabilityLossPerUse { get { return durabilityLossPerUse; } }
         #endregion
     }
 }

@@ -12,16 +12,16 @@ namespace RoguelikeThing
     {
         #region Member Variables
         static TerrainManager terrainManager = new TerrainManager();
-        public static TerrainManager GetTerrainManager => terrainManager;
+        public static TerrainManager GetTerrainManager { get { return terrainManager; } }
         private static Dictionary<int, Terrain> mapList;
         private static int currentLevel;
         private static Point tileSize;
         #endregion
 
         #region Accessors/Mutators
-        public static Dictionary<int, Terrain> MapList { get => mapList; set => mapList = value; }
-        public static int CurrentLevel { get => currentLevel; set => currentLevel = value; }
-        public static Point TileSize { get => tileSize; set => tileSize = value; }
+        public static Dictionary<int, Terrain> MapList { get { return mapList; } set {  mapList = value; } }
+        public static int CurrentLevel { get { return currentLevel; } set { currentLevel = value; } }
+        public static Point TileSize { get { return tileSize; } set { tileSize = value; } }
         #endregion
 
         private TerrainManager()
@@ -35,7 +35,8 @@ namespace RoguelikeThing
 
         public static Terrain GetCurrentMap(int level)
         {
-            if (MapList.TryGetValue(level, out Terrain foundTerrain))
+            Terrain foundTerrain;
+            if (MapList.TryGetValue(level, out foundTerrain ))
                 return foundTerrain;
             else
                 throw new Exception("Failed to locate the current level in the TerrainManager!");            
@@ -43,7 +44,8 @@ namespace RoguelikeThing
 
         public static Point GetMapSize(int level)
         {
-            if (MapList.TryGetValue(level, out Terrain foundTerrain))
+            Terrain foundTerrain;
+            if (MapList.TryGetValue(level, out foundTerrain))
                 return foundTerrain.MapSize;
             else
                 throw new Exception("Failed to retrieve the mapsize for level " + level + "!");

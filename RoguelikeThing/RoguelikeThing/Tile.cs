@@ -21,9 +21,9 @@ namespace RoguelikeThing
         #endregion
 
         #region Accessors and Mutators
-        public bool ShowDebugNumber { get => showDebugNumber; set => showDebugNumber = value; }
-        public GroundType FloorType { get => floorType; set => floorType = value; }
-        public SpriteEffects TileEffects { get => tileEffects; set => tileEffects = value; }
+        public bool ShowDebugNumber { get { return showDebugNumber; } set { showDebugNumber = value; } }
+        public GroundType FloorType { get { return floorType; } set { floorType = value; } }
+        public SpriteEffects TileEffects { get { return tileEffects; } set { tileEffects = value; } }
         #endregion
 
         // Constructor, it will be passed the grid location that the tile will be set to.

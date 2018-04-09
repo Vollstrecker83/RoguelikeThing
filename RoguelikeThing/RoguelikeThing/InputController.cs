@@ -15,16 +15,38 @@ namespace RoguelikeThing
     public sealed class InputController:Game1
     {
         static InputController inputController = new InputController();
-        public static InputController GetInputController => inputController;
+        public static InputController GetInputController { get { return inputController; } }
+
+        public KeyboardState KeyboardState { get { return keyboardState; } }
+        public MouseState MouseState { get { return mouseState; } }
+
         KeyboardState keyboardState;
+        MouseState mouseState;
 
         private InputController()
         {
             keyboardState = Keyboard.GetState();
+            mouseState = Mouse.GetState();
         }
 
         public override void GiveTime(GameTime gameTime)
         {
+            keyboardState = Keyboard.GetState();
+            mouseState = Mouse.GetState();
+
+            if(keyboardState.IsKeyDown(Keys.Space))
+            {
+                if(Camera.GetCamera.IsLocked)
+                {
+                    Camera.GetCamera.IsLocked = false;
+                }
+                else
+                {
+                    Camera.GetCamera.IsLocked = true;
+                    Camera.GetCamera.LockedTarget = Player;
+                }
+            }
+
             ProcessPlayerMovement(gameTime);
         }
 

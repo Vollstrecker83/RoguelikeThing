@@ -18,11 +18,11 @@ namespace RoguelikeThing
         #endregion
 
         #region Accessors/Mutators
-        public float Mitigation => mitigation;
-        public float BlockChance => blockChance;
-        public int MaxDEXBonus => maxDEXBonus;
-        public int MaxSPDBonus => maxSPDBonus;
-        public int MinSTRRequirement => minSTRRequirement;
+        public float Mitigation { get { return mitigation; } }
+        public float BlockChance { get { return blockChance; } }
+        public int MaxDEXBonus { get { return maxDEXBonus; } }
+        public int MaxSPDBonus { get { return maxSPDBonus; } }
+        public int MinSTRRequirement { get { return minSTRRequirement; } }
         #endregion
     }
 }

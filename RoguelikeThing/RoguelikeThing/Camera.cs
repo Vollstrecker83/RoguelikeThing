@@ -26,14 +26,19 @@ namespace RoguelikeThing
         private int viewportHeight;
         private int worldWidth;
         private int worldHeight;
+        private bool isLocked;
+        private GameObject lockedTarget;
+        private Point cursorLocation;
         #endregion
 
         #region Accessors/Mutators
-        public static Camera GetCamera => camera;
+        public static Camera GetCamera { get { return camera; } }
+        public bool IsLocked { get { return isLocked; } set { isLocked = value; } } 
+        public GameObject LockedTarget { get { return lockedTarget; } set { lockedTarget = value; } }
 
         public float Zoom
         {
-            get => zoom;
+            get { return zoom; }
             set
             {
                 zoom = value;
@@ -46,6 +51,8 @@ namespace RoguelikeThing
         public Vector2 Position
         {
             get { return position; }
+
+            // Making sure we don't move the camera beyond the boundaries of the viewport
             set
             {
                 float leftBarrier = (float)viewportWidth * 0.5f / zoom;
@@ -74,10 +81,16 @@ namespace RoguelikeThing
             position = Vector2.Zero;
             viewportWidth = viewport.Width;
             viewportHeight = viewport.Height;
+            isLocked = false;
+            cursorLocation = Point.Zero;
         }
 
         public void Move(Vector2 amount)
         {
+            // If the camera is locked to a target, ignore any movement commands
+            if (isLocked)
+                return;
+
             position += amount;
         }
 
@@ -90,6 +103,49 @@ namespace RoguelikeThing
                 Matrix.CreateTranslation(new Vector3(viewportWidth * 0.5f, viewportHeight * 0.5f, 0));
 
             return transform;
+        }
+
+        public override void GiveTime(GameTime gameTime)
+        {
+            if(isLocked)
+            {
+                Position = lockedTarget.DrawPosition.ToVector2();
+                return;
+            }
+            else
+            {
+                // Camera movement logic goes here
+                cursorLocation = InputController.GetInputController.MouseState.Position;
+                Vector2 moveAmount = Position;
+                int rightScroll = (viewportWidth / 6) * 5;
+                int leftScroll = viewportWidth / 6;
+                int upScroll = viewportHeight / 6;
+                int downScroll = (viewportHeight / 6) * 5;
+
+                if(cursorLocation.X >= rightScroll )
+                {
+                    moveAmount.X += Map.GetTileSize().X;
+                    Move(moveAmount);
+                }
+
+                if (cursorLocation.X <= leftScroll)
+                {
+                    moveAmount.X -= Map.GetTileSize().X;
+                    Move(moveAmount);
+                }
+
+                if(cursorLocation.Y <= upScroll)
+                {
+                    moveAmount.Y -= Map.GetTileSize().Y;
+                    Move(moveAmount);
+                }
+
+                if(cursorLocation.Y >= downScroll)
+                {
+                    moveAmount.Y += Map.GetTileSize().Y;
+                    Move(moveAmount);
+                }
+            }
         }
     }
 }

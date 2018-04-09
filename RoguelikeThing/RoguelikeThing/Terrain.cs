@@ -23,8 +23,8 @@ namespace RoguelikeThing
         #endregion
 
         #region Accessors and Mutators
-        public List<Tile> TileSet => tileSet;
-        public Point MapSize => mapSize;
+        public List<Tile> TileSet { get { return tileSet; } }
+        public Point MapSize { get { return mapSize; } }
 
 
         #endregion
@@ -35,8 +35,8 @@ namespace RoguelikeThing
         public Terrain(int newLevelNumber)
         {
             Random rand = new Random();
-            mapSize.X = rand.Next(5, 11);
-            mapSize.Y = rand.Next(5, 11);
+            mapSize.X = rand.Next(20, 51);
+            mapSize.Y = rand.Next(20, 51);
             this.CurrentLevel = newLevelNumber;
             this.tileSet = CreateTileSet();
 

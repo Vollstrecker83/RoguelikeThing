@@ -21,9 +21,9 @@ namespace RoguelikeThing
         #endregion
 
         #region Accessors/Mutators
-        public int CurrentExperience { get => currentExperience; set => currentExperience = value; }
-        public int MovementTimeLimit { get => movementTimeLimit; set => movementTimeLimit = value; }
-        public bool MoveAllowed { get => moveAllowed; set => moveAllowed = value; }
+        public int CurrentExperience { get { return currentExperience; } set { currentExperience = value; } }
+        public int MovementTimeLimit { get { return movementTimeLimit; } set { movementTimeLimit = value; } }
+        public bool MoveAllowed { get { return moveAllowed; } set { moveAllowed = value; } }
         #endregion
 
         public Player():base(TerrainManager.CurrentLevel)
