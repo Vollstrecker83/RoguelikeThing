@@ -35,17 +35,15 @@ namespace RoguelikeThing
 
         public static Terrain GetCurrentMap(int level)
         {
-            Terrain foundTerrain;
-            if (MapList.TryGetValue(level, out foundTerrain ))
+            if (MapList.TryGetValue(level, out Terrain foundTerrain))
                 return foundTerrain;
             else
-                throw new Exception("Failed to locate the current level in the TerrainManager!");            
+                throw new Exception("Failed to locate the current level in the TerrainManager!");
         }
 
         public static Point GetMapSize(int level)
         {
-            Terrain foundTerrain;
-            if (MapList.TryGetValue(level, out foundTerrain))
+            if (MapList.TryGetValue(level, out Terrain foundTerrain))
                 return foundTerrain.MapSize;
             else
                 throw new Exception("Failed to retrieve the mapsize for level " + level + "!");

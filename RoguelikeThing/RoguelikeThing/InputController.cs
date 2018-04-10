@@ -12,53 +12,45 @@ namespace RoguelikeThing
     /// <summary>
     /// This should handle all input for the game.
     /// </summary>
-    public sealed class InputController:Game1
+    public sealed class InputController
     {
-        static InputController inputController = new InputController();
-        public static InputController GetInputController { get { return inputController; } }
+        
+        private static InputController inputController = new InputController();
 
-        public KeyboardState KeyboardState { get { return keyboardState; } }
-        public MouseState MouseState { get { return mouseState; } }
-
-        KeyboardState keyboardState;
-        MouseState mouseState;
+        public static Point MousePosition { get { return Mouse.GetState().Position; } }
 
         private InputController()
         {
-            keyboardState = Keyboard.GetState();
-            mouseState = Mouse.GetState();
+            
         }
 
-        public override void GiveTime(GameTime gameTime)
+        public static void GiveTime(GameTime gameTime)
         {
-            keyboardState = Keyboard.GetState();
-            mouseState = Mouse.GetState();
-
-            if(keyboardState.IsKeyDown(Keys.Space))
+            if(Keyboard.GetState().IsKeyDown(Keys.Space))
             {
-                if(Camera.GetCamera.IsLocked)
+                if(Camera.IsLocked)
                 {
-                    Camera.GetCamera.IsLocked = false;
+                    Camera.IsLocked = false;
                 }
                 else
                 {
-                    Camera.GetCamera.IsLocked = true;
-                    Camera.GetCamera.LockedTarget = Player;
+                    Camera.IsLocked = true;
+                    Camera.LockedTarget = MainGame.GetPlayer;
                 }
             }
 
             ProcessPlayerMovement(gameTime);
         }
 
-        public void ProcessPlayerMovement(GameTime gameTime)
+        public static void ProcessPlayerMovement(GameTime gameTime)
         {
-            if (gameTime.TotalGameTime.TotalMilliseconds - Player.LastUpdate >= Player.MovementTimeLimit && !Player.MoveAllowed)
-                Player.MoveAllowed = true;
+            if (gameTime.TotalGameTime.TotalMilliseconds - MainGame.GetPlayer.LastUpdate >= MainGame.GetPlayer.MovementTimeLimit && !MainGame.GetPlayer.MoveAllowed)
+                MainGame.GetPlayer.MoveAllowed = true;
 
-            if (!Player.MoveAllowed)
+            if (!MainGame.GetPlayer.MoveAllowed)
                 return;
 
-            Point newGridPosition = Player.GridPosition;
+            Point newGridPosition = MainGame.GetPlayer.GridPosition;
 
             if (Keyboard.GetState().IsKeyDown(Keys.Up))
                 newGridPosition.Y -= 1;
@@ -71,14 +63,14 @@ namespace RoguelikeThing
             else
                 return;     // No movement input detected, exit early
 
-            if (newGridPosition != Player.GridPosition)
+            if (newGridPosition != MainGame.GetPlayer.GridPosition)
             {
                 // Movement has been detected, verify that we can actually move into this tile
-                if (Player.CanMoveIntoTile(Player.CurrentLevel, newGridPosition))
+                if (MainGame.GetPlayer.CanMoveIntoTile(MainGame.GetPlayer.CurrentLevel, newGridPosition))
                 {
-                    Player.DrawRectangle = Player.UpdateDrawRectangle(newGridPosition, TerrainManager.GetMapSize(Player.CurrentLevel));
-                    Player.LastUpdate = gameTime.TotalGameTime.TotalMilliseconds;
-                    Player.MoveAllowed = false;
+                    MainGame.GetPlayer.DrawRectangle = MainGame.GetPlayer.UpdateDrawRectangle(newGridPosition, TerrainManager.GetMapSize(MainGame.GetPlayer.CurrentLevel));
+                    MainGame.GetPlayer.LastUpdate = gameTime.TotalGameTime.TotalMilliseconds;
+                    MainGame.GetPlayer.MoveAllowed = false;
                 }
 
                 else

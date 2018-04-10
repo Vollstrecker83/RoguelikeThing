@@ -12,31 +12,28 @@ namespace RoguelikeThing
     /// <summary>
     /// This class will implement and control the in-game camera
     /// </summary>
-    public sealed class Camera:Game1
+    public sealed class Camera
     {
+
         #region Private Member Variables
-        static Camera camera = new Camera();
-        private Viewport viewport;
+        private static Camera camera = new Camera();
         private const float zoomUpperLimit = 1.5f;
         private const float zoomLowerLimit = 0.5f;
-        private float zoom;
-        private Matrix transform;
-        private Vector2 position;
-        private int viewportWidth;
-        private int viewportHeight;
-        private int worldWidth;
-        private int worldHeight;
-        private bool isLocked;
-        private GameObject lockedTarget;
-        private Point cursorLocation;
+        private static float zoom;
+        private static Matrix transform;
+        private static Vector2 position;
+        private static int worldWidth;
+        private static int worldHeight;
+        private static bool isLocked;
+        private static GameObject lockedTarget;
+        private static Point cursorLocation;
         #endregion
 
         #region Accessors/Mutators
-        public static Camera GetCamera { get { return camera; } }
-        public bool IsLocked { get { return isLocked; } set { isLocked = value; } } 
-        public GameObject LockedTarget { get { return lockedTarget; } set { lockedTarget = value; } }
+        public static bool IsLocked { get { return isLocked; } set { isLocked = value; } } 
+        public static GameObject LockedTarget { get { return lockedTarget; } set { lockedTarget = value; } }
 
-        public float Zoom
+        public static float Zoom
         {
             get { return zoom; }
             set
@@ -48,17 +45,17 @@ namespace RoguelikeThing
                     zoom = zoomUpperLimit;
             }
         }
-        public Vector2 Position
+        public static Vector2 Position
         {
             get { return position; }
 
             // Making sure we don't move the camera beyond the boundaries of the viewport
             set
             {
-                float leftBarrier = (float)viewportWidth * 0.5f / zoom;
-                float rightBarrier = worldWidth - (float)viewportWidth * 0.5f / zoom;
-                float topBarrier = worldHeight - (float)viewportHeight * 0.5f / zoom;
-                float bottomBarrier = (float)viewportHeight * 0.5f / zoom;
+                float leftBarrier = MainGame.GetViewport.Width* 0.5f / zoom;
+                float rightBarrier = worldWidth - MainGame.GetViewport.Width * 0.5f / zoom;
+                float topBarrier = worldHeight - MainGame.GetViewport.Height * 0.5f / zoom;
+                float bottomBarrier = MainGame.GetViewport.Height * 0.5f / zoom;
 
                 position = value;
 
@@ -74,18 +71,15 @@ namespace RoguelikeThing
         }
         #endregion
 
-        private Camera()
+        Camera()
         {
-            viewport = GetViewport;
             zoom = 1.0f;
             position = Vector2.Zero;
-            viewportWidth = viewport.Width;
-            viewportHeight = viewport.Height;
             isLocked = false;
             cursorLocation = Point.Zero;
         }
 
-        public void Move(Vector2 amount)
+        public static void Move(Vector2 amount)
         {
             // If the camera is locked to a target, ignore any movement commands
             if (isLocked)
@@ -94,18 +88,18 @@ namespace RoguelikeThing
             position += amount;
         }
 
-        public Matrix GetTransformation()
+        public static Matrix GetTransformation()
         {
             transform =
                 Matrix.CreateTranslation(new Vector3(-position.X, -position.Y, 0)) *
                 Matrix.CreateRotationZ(0) *
                 Matrix.CreateScale(new Vector3(zoom, zoom, 1)) *
-                Matrix.CreateTranslation(new Vector3(viewportWidth * 0.5f, viewportHeight * 0.5f, 0));
+                Matrix.CreateTranslation(new Vector3(MainGame.GetViewport.Width * 0.5f, MainGame.GetViewport.Height * 0.5f, 0));
 
             return transform;
         }
 
-        public override void GiveTime(GameTime gameTime)
+        public static void GiveTime(GameTime gameTime)
         {
             if(isLocked)
             {
@@ -115,34 +109,34 @@ namespace RoguelikeThing
             else
             {
                 // Camera movement logic goes here
-                cursorLocation = InputController.GetInputController.MouseState.Position;
+                cursorLocation = InputController.MousePosition;
                 Vector2 moveAmount = Position;
-                int rightScroll = (viewportWidth / 6) * 5;
-                int leftScroll = viewportWidth / 6;
-                int upScroll = viewportHeight / 6;
-                int downScroll = (viewportHeight / 6) * 5;
+                int rightScroll = (MainGame.GetViewport.Width / 6) * 5;
+                int leftScroll = MainGame.GetViewport.Width / 6;
+                int upScroll = MainGame.GetViewport.Height / 6;
+                int downScroll = (MainGame.GetViewport.Height / 6) * 5;
 
                 if(cursorLocation.X >= rightScroll )
                 {
-                    moveAmount.X += Map.GetTileSize().X;
+                    moveAmount.X += MainGame.Map.GetTileSize().X;
                     Move(moveAmount);
                 }
 
                 if (cursorLocation.X <= leftScroll)
                 {
-                    moveAmount.X -= Map.GetTileSize().X;
+                    moveAmount.X -= MainGame.Map.GetTileSize().X;
                     Move(moveAmount);
                 }
 
                 if(cursorLocation.Y <= upScroll)
                 {
-                    moveAmount.Y -= Map.GetTileSize().Y;
+                    moveAmount.Y -= MainGame.Map.GetTileSize().Y;
                     Move(moveAmount);
                 }
 
                 if(cursorLocation.Y >= downScroll)
                 {
-                    moveAmount.Y += Map.GetTileSize().Y;
+                    moveAmount.Y += MainGame.Map.GetTileSize().Y;
                     Move(moveAmount);
                 }
             }

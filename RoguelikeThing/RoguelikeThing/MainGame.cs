@@ -9,26 +9,22 @@ namespace RoguelikeThing
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class Game1 : Game
+    public class MainGame : Game
     {
         #region Member Variables
-        Viewport viewport;
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-        Camera camera;
-        static Player player;
-        static Terrain map;
+        private static GraphicsDeviceManager graphics;
+        private static SpriteBatch spriteBatch;
+        private static Player player;
+        private static Terrain map;
         #endregion
 
         #region Accessors/Mutators
-        static public Player Player { get { return player; } }
+        public static Player GetPlayer { get { return player; } }
         public static Terrain Map { get { return map; } }
-        public Viewport GetViewport { get { return viewport; } }
-
-
+        public static Viewport GetViewport { get { return graphics.GraphicsDevice.Viewport; } }
         #endregion
 
-        public Game1()
+        public MainGame()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -43,8 +39,8 @@ namespace RoguelikeThing
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            viewport = graphics.GraphicsDevice.Viewport;
-            camera = Camera.GetCamera;
+            
+            IsMouseVisible = true;
             TerrainManager.TileSize = new Point(64, 64);
             TerrainManager.MapList.Add(1, new Terrain(1));
             bool gotMap = TerrainManager.MapList.TryGetValue(1, out map);
@@ -115,8 +111,8 @@ namespace RoguelikeThing
             }
 
             // TODO: Add your update logic here
-            InputController.GetInputController.GiveTime(gameTime);
-            Camera.GetCamera.GiveTime(gameTime);
+            InputController.GiveTime(gameTime);
+            Camera.GiveTime(gameTime);
 
             base.Update(gameTime);
         }
@@ -130,7 +126,7 @@ namespace RoguelikeThing
             GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
-            //spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, cameraTransform);
+            //spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Camera.GetCamera.GetTransformation());
             spriteBatch.Begin();
 
             // Draw the terrain first, as it is the "bottom" layer
