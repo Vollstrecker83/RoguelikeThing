@@ -1,0 +1,14 @@
+Camera:
+
+	Top-Down view
+	Can make it rotatable if we want, looks like it'd be a joke to implement
+	Options to zoom in/out
+		Should make a button that will return to normal zoom/rotation
+	Button to lock/unlock camera like in LoL
+	Also want to make the camera snap to whichever entity is actively moving while in combat, like Fallout
+
+Graphics:
+	When you're in combat, I want to highlight enemies in red. Neutral entities (if they exist) in yellow, same with doors.
+	Some manner of graphics overlay for when you're in some kind of special state like sneaking, etc
+
+

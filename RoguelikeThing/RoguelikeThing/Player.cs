@@ -16,64 +16,36 @@ namespace RoguelikeThing
     {
         #region Private Member Variables
         private int currentExperience;
+        int movementTimeLimit;
+        bool moveAllowed;
         #endregion
 
         #region Accessors/Mutators
-        public int CurrentExperience { get => currentExperience; set => currentExperience = value; }
+        public int CurrentExperience { get { return currentExperience; } set { currentExperience = value; } }
+        public int MovementTimeLimit { get { return movementTimeLimit; } set { movementTimeLimit = value; } }
+        public bool MoveAllowed { get { return moveAllowed; } set { moveAllowed = value; } }
         #endregion
 
-        public Player(Point passedTileSize, Point sizeOfMap)
+        public Player():base(TerrainManager.CurrentLevel)
         {
-            // Null-protect the passed value
-            if (passedTileSize.Equals(null) || 
-                (passedTileSize.X < 0 || passedTileSize.Y < 0))
+            // Make sure we have a valid map to load into
+            if (TerrainManager.MapList.Equals(null))
             {
-                throw new Exception("Passed value in Player(Point) is either null or less than zero");
+                throw new Exception("Map passed to Player constructor is empty!");
             }
+
+            this.CurrentLevel = TerrainManager.CurrentLevel;
 
             this.GridPosition = new Point(0, 0);
             this.ObjectSize = this.ScaleObjectToTileSize();
             this.DrawPosition = this.UpdateDrawPosition();
             this.DrawOffset = this.GenerateDrawOffset();
-            this.DrawRectangle = this.UpdateDrawRectangle(this.GridPosition, sizeOfMap);
+            this.DrawRectangle = this.UpdateDrawRectangle(this.GridPosition, TerrainManager.GetCurrentMap(this.CurrentLevel).MapSize);
             this.IsCollider = true;
             this.IsDormant = false;
             this.currentExperience = 0;
+            this.movementTimeLimit = 500;
+            this.moveAllowed = true;
         }
-
-        public bool ProcessPlayerMovement(Point newGridPosition, KeyboardState state, Terrain map)
-        {
-            if (state.IsKeyDown(Keys.Up))
-            {
-                newGridPosition.Y -= 1;
-            }
-            else if (state.IsKeyDown(Keys.Down))
-            {
-                newGridPosition.Y += 1;
-            }
-            else if (state.IsKeyDown(Keys.Left))
-            {
-                newGridPosition.X -= 1;
-            }
-            else if (state.IsKeyDown(Keys.Right))
-            {
-                newGridPosition.X += 1;
-            }
-            else
-            {
-                // No movement input detected, return control back to Update()
-                return false;
-            }
-
-            // Verify that we can actually move into the tile we're attempting to
-            if (this.CanMoveIntoTile(map, newGridPosition))
-            {
-                this.DrawRectangle = this.UpdateDrawRectangle(newGridPosition, map.MapSize);
-                return true;
-            }
-            return false;
-        }
-
-
     }
 }

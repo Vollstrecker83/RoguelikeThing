@@ -11,7 +11,7 @@ namespace RoguelikeThing
     /// <summary>
     /// Base class for any object that needs to be drawn in the scene
     /// </summary>
-    public abstract class GameObject:Game1
+    public abstract class GameObject
     {
         #region Graphics Data
         private Texture2D objectTexture;
@@ -20,25 +20,29 @@ namespace RoguelikeThing
         #endregion
 
         #region Other Data
-        private bool isDormant;              // A flag to check if the object is still active
+        private bool isDormant;             // A flag to check if the object is still active
         private bool isCollider;            // A flag to check if the object can be navigated through
         private bool isVisible;             // A flag for invisibility
         private bool isInLOS;               // A flag for Line of Sight detection
         private Point gridPosition;         // So we know what tile the object is on
+        private double lastUpdate;
+        private int currentLevel;
         #endregion
 
         #region Accessors/Mutators
-        public Texture2D ObjectTexture { get => objectTexture; set => objectTexture = value; }
-        public Point ObjectPosition { get => objectPosition; set => objectPosition = value; }
-        public Point ObjectSize { get => objectSize; set => objectSize = value; }
-        public bool IsDormant { get => isDormant; set => isDormant = value; }
-        public bool IsCollider { get => isCollider; set => isCollider = value; }
-        public bool IsVisible { get => isVisible; set => isVisible = value; }
-        public bool IsInLOS { get => isInLOS; set => isInLOS = value; }
-        public Point GridPosition { get => gridPosition; set => gridPosition = value; }
-        public Rectangle DrawRectangle { get => drawRectangle; set => drawRectangle = value; }
-        public Point DrawPosition { get => drawPosition; set => drawPosition = value; }
-        public Point DrawOffset { get => drawOffset; set => drawOffset = value; }
+        public Texture2D ObjectTexture { get { return objectTexture; } set { objectTexture = value; } }
+        public Point ObjectPosition { get { return objectPosition; } set { objectPosition = value; } }
+        public Point ObjectSize { get { return objectSize; } set { objectSize = value; } }
+        public bool IsDormant { get { return isDormant; } set { isDormant = value; } }
+        public bool IsCollider { get { return isCollider; } set { isCollider = value; } }
+        public bool IsVisible { get { return isVisible; } set { isVisible = value; } }
+        public bool IsInLOS { get { return isInLOS; } set { isInLOS = value; } }
+        public Point GridPosition { get { return gridPosition; } set { gridPosition = value; } }
+        public Rectangle DrawRectangle { get { return drawRectangle; } set { drawRectangle = value; } }
+        public Point DrawPosition { get { return drawPosition; } set { drawPosition = value; } }
+        public Point DrawOffset { get { return drawOffset; } set { drawOffset = value; } }
+        public double LastUpdate { get { return lastUpdate; } set { lastUpdate = value; } }
+        public int CurrentLevel { get { return currentLevel; } set { currentLevel = value; } }
         #endregion
 
         /// <summary>
@@ -71,7 +75,8 @@ namespace RoguelikeThing
         /// <returns></returns>
         public Point UpdateDrawPosition()
         {
-            return new Point((this.GridPosition.X * Game1.TileSize.X) + this.DrawOffset.X, (this.GridPosition.Y * Game1.TileSize.Y) + this.DrawOffset.Y);
+            return new Point((this.GridPosition.X * GetTileSize().X) + this.DrawOffset.X, 
+                (this.GridPosition.Y * GetTileSize().Y) + this.DrawOffset.Y);
         }
 
         /// <summary>
@@ -81,16 +86,16 @@ namespace RoguelikeThing
         /// <returns></returns>
         public Point GenerateDrawOffset()
         {
-            return new Point((Game1.TileSize.X - this.ObjectSize.X) / 2, (Game1.TileSize.Y - this.ObjectSize.Y) / 2);
+            return new Point((GetTileSize().X - this.ObjectSize.X) / 2, (GetTileSize().Y - this.ObjectSize.Y) / 2);
         }
 
         /// <summary>
-        /// Scales the GameObject size to whatever the current TileSize is
+        /// Scales the GameObject size to whatever the current GetTileSize() is
         /// </summary>
         /// <returns></returns>
         public Point ScaleObjectToTileSize()
         {
-            return new Point(Convert.ToInt32(Game1.TileSize.X * 0.75), Convert.ToInt32(Game1.TileSize.Y * 0.75));
+            return new Point(Convert.ToInt32(GetTileSize().X * 0.75), Convert.ToInt32(GetTileSize().Y * 0.75));
         }
 
         /// <summary>
@@ -112,15 +117,15 @@ namespace RoguelikeThing
 
             newSize = new Point(Convert.ToInt32(this.ObjectSize.X * percentage.X), Convert.ToInt32(this.ObjectSize.Y * percentage.Y));
 
-            if (newSize.X > TileSize.X || newSize.Y > TileSize.Y)
+            if (newSize.X > GetTileSize().X || newSize.Y > GetTileSize().Y)
             {
-                newSize = TileSize;
+                newSize = GetTileSize();
             }
 
-            if (newSize.X < Convert.ToInt32((TileSize.X / 4)) || (newSize.Y < Convert.ToInt32(TileSize.X / 4)))
+            if (newSize.X < Convert.ToInt32((GetTileSize().X / 4)) || (newSize.Y < Convert.ToInt32(GetTileSize().X / 4)))
             {
-                newSize.X = Convert.ToInt32(TileSize.X / 4);
-                newSize.Y = Convert.ToInt32(TileSize.Y / 4);
+                newSize.X = Convert.ToInt32(GetTileSize().X / 4);
+                newSize.Y = Convert.ToInt32(GetTileSize().Y / 4);
             }
 
             return newSize;
@@ -144,18 +149,28 @@ namespace RoguelikeThing
 
             newSize = new Point(Convert.ToInt32(this.ObjectSize.X * percentage), Convert.ToInt32(this.ObjectSize.Y * percentage));
 
-            if (newSize.X > TileSize.X || newSize.Y > TileSize.Y)
+            if (newSize.X > GetTileSize().X || newSize.Y > GetTileSize().Y)
             {
-                newSize = TileSize;
+                newSize = GetTileSize();
             }
 
-            if (newSize.X < Convert.ToInt32((TileSize.X / 4)) || (newSize.Y < Convert.ToInt32(TileSize.X / 4)))
+            if (newSize.X < Convert.ToInt32((GetTileSize().X / 4)) || (newSize.Y < Convert.ToInt32(GetTileSize().X / 4)))
             {
-                newSize.X = Convert.ToInt32(TileSize.X / 4);
-                newSize.Y = Convert.ToInt32(TileSize.Y / 4);
+                newSize.X = Convert.ToInt32(GetTileSize().X / 4);
+                newSize.Y = Convert.ToInt32(GetTileSize().Y / 4);
             }
 
             return newSize;
+        }
+
+        public Point GetTileSize()
+        {
+            return TerrainManager.TileSize;
+        }
+
+        public Point GetMapSize(int level)
+        {
+            return TerrainManager.GetMapSize(level);
         }
     }
 }

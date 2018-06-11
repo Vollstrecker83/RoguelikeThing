@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -8,26 +9,22 @@ namespace RoguelikeThing
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class Game1 : Game
+    public class MainGame : Game
     {
         #region Member Variables
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-
-        Player player;
-        Terrain map;
-        double lastUpdate;
-        int movementTimeLimit;
-        bool moveAllowed;
-        private static Point tileSize;
+        private static GraphicsDeviceManager graphics;
+        private static SpriteBatch spriteBatch;
+        private static Player player;
+        private static Terrain map;
         #endregion
 
         #region Accessors/Mutators
-        public Player Player { get => player; set => player = value; }
-        protected static Point TileSize { get => tileSize; set => tileSize = value; }
+        public static Player GetPlayer { get { return player; } }
+        public static Terrain Map { get { return map; } }
+        public static Viewport GetViewport { get { return graphics.GraphicsDevice.Viewport; } }
         #endregion
 
-        public Game1()
+        public MainGame()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -42,11 +39,14 @@ namespace RoguelikeThing
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            tileSize = new Point(64, 64);
-            map = new Terrain(0);
-            player = new Player(tileSize, map.MapSize);
-            movementTimeLimit = 500;
-            moveAllowed = true;
+            
+            IsMouseVisible = true;
+            TerrainManager.TileSize = new Point(64, 64);
+            TerrainManager.MapList.Add(1, new Terrain(1));
+            bool gotMap = TerrainManager.MapList.TryGetValue(1, out map);
+            if (!gotMap)
+                throw new Exception("Failed to retrieve map in Game1::Initialize()");
+            player = new Player();
 
             base.Initialize();
         }
@@ -62,6 +62,11 @@ namespace RoguelikeThing
 
             // TODO: use this.Content to load your game content here
             player.ObjectTexture = Content.Load<Texture2D>("shittyPlayer");
+
+            bool gotMap = TerrainManager.MapList.TryGetValue(1, out map);
+
+            if (!gotMap)
+                throw new Exception("Failed to retrieve map from Terrain Manager in LoadContent!");
 
             foreach (Tile tempTile in map.TileSet)
             {
@@ -106,28 +111,8 @@ namespace RoguelikeThing
             }
 
             // TODO: Add your update logic here
-
-            // We need to have a movement rate limiter in place for free movement or people will just fly across the map.
-            if (gameTime.TotalGameTime.TotalMilliseconds - lastUpdate >= movementTimeLimit && !moveAllowed)
-            {
-                moveAllowed = true;
-            }
-
-            // It seems like Update() runs once at least before Initialize(), so protect against null objects
-            if (player != null)
-            {
-                if (moveAllowed)
-                {
-                    bool moved = player.ProcessPlayerMovement(player.GridPosition, Keyboard.GetState(), map);
-
-                    if (moved)
-                    {
-                        // Note the time at which we processed movement, set movement flag to false
-                        lastUpdate = gameTime.TotalGameTime.TotalMilliseconds;
-                        moveAllowed = false;
-                    }
-                }
-            }
+            InputController.GiveTime(gameTime);
+            Camera.GiveTime(gameTime);
 
             base.Update(gameTime);
         }
@@ -141,6 +126,7 @@ namespace RoguelikeThing
             GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
+            //spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Camera.GetCamera.GetTransformation());
             spriteBatch.Begin();
 
             // Draw the terrain first, as it is the "bottom" layer
@@ -156,5 +142,8 @@ namespace RoguelikeThing
 
             base.Draw(gameTime);
         }
+
+        public virtual void GiveTime(GameTime gameTime)
+        { }
     }
 }
